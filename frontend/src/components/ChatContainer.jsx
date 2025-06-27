@@ -28,7 +28,7 @@ const Chatcontainer = () => {
 
     useEffect(()=>{
         if(messageEndRef.current && messages){
-            
+            messageEndRef.current.scrollIntoView({ behavior: "smooth" });
         }
     },[messages]);
 
