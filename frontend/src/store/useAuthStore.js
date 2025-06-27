@@ -14,8 +14,8 @@ export const useAuthStore = create((set,get) => ({
     checkAuth: async () => {
         try {
             const res = await axiosInstance.get("/auth/check");
-
             set({ authUser: res.data });
+            get().connectSocket();
         } catch (error) {
             set({ authUser: null });
         } finally {
@@ -29,6 +29,7 @@ export const useAuthStore = create((set,get) => ({
             const res = await axiosInstance.post("auth/signup", data);
             set({ authUser: res.data });
             toast.success("Account Created successfully");
+            get().connectSocket();
         } catch (error) {
             toast.error(error.response.data.message);
         }
@@ -42,6 +43,7 @@ export const useAuthStore = create((set,get) => ({
             await axiosInstance.post("auth/logout");
             set({ authUser: null });
             toast.success("Logout successfully");
+            get().disconnectSocket();
         } catch (error) {
             toast.error(error.response.data.message);
         }
@@ -74,5 +76,9 @@ export const useAuthStore = create((set,get) => ({
       set({ isUpdatingProfile: false });
     }
   },
+
+  connectSocket:()=>{},
+  disconnectSocket:()=>{}
+
 
 }));
